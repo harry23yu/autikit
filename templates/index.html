@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutiKit — Supporting autistic people of all ages</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div class="container">
+
+        <header>
+            <div class="logo">
+                <span class="logo-icon" aria-hidden="true">🧩</span>
+                <div class="logo-text">
+                    <h1>AutiKit</h1>
+                    <p class="tagline">Supporting autistic people of all ages</p>
+                </div>
+            </div>
+        </header>
+
+        <nav class="tabs" role="tablist" aria-label="Tools">
+            <button class="tab active" data-tab="social-script" role="tab" aria-selected="true" aria-controls="social-script">
+                <span class="tab-icon" aria-hidden="true">💬</span>
+                <span class="tab-label">Social Script</span>
+            </button>
+            <button class="tab" data-tab="sensory-prep" role="tab" aria-selected="false" aria-controls="sensory-prep">
+                <span class="tab-icon" aria-hidden="true">🎧</span>
+                <span class="tab-label">Sensory Prep</span>
+            </button>
+            <button class="tab" data-tab="executive-function" role="tab" aria-selected="false" aria-controls="executive-function">
+                <span class="tab-icon" aria-hidden="true">✅</span>
+                <span class="tab-label">Task Unsticker</span>
+            </button>
+        </nav>
+
+        <main>
+
+            <!-- ── Tool 1: Social Script Generator ── -->
+            <section id="social-script" class="panel active" role="tabpanel">
+                <div class="panel-header">
+                    <div class="panel-header-icon" aria-hidden="true">💬</div>
+                    <div>
+                        <h2>Social Script Generator</h2>
+                        <p class="panel-desc">Describe a social situation you're nervous about and get a ready-to-use script — what to say, what to expect, and how to handle surprises.</p>
+                    </div>
+                </div>
+
+                <form class="tool-form" id="social-script-form" novalidate>
+                    <fieldset class="age-selector">
+                        <legend>Who is this for?</legend>
+                        <div class="age-options">
+                            <label class="age-option">
+                                <input type="radio" name="social-age" value="child">
+                                <span class="age-label">
+                                    <span class="age-emoji" aria-hidden="true">🌟</span>
+                                    Child
+                                    <span class="age-sub">under 12</span>
+                                </span>
+                            </label>
+                            <label class="age-option">
+                                <input type="radio" name="social-age" value="teen">
+                                <span class="age-label">
+                                    <span class="age-emoji" aria-hidden="true">🎒</span>
+                                    Teen
+                                    <span class="age-sub">13–17</span>
+                                </span>
+                            </label>
+                            <label class="age-option">
+                                <input type="radio" name="social-age" value="adult" checked>
+                                <span class="age-label">
+                                    <span class="age-emoji" aria-hidden="true">🌿</span>
+                                    Adult
+                                    <span class="age-sub">18+</span>
+                                </span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-group">
+                        <label for="social-context">What kind of situation is it?</label>
+                        <select id="social-context">
+                            <option value="job interview">Job interview</option>
+                            <option value="doctor or medical visit">Doctor or medical visit</option>
+                            <option value="conflict with someone">Conflict with someone</option>
+                            <option value="meeting new people">Meeting new people</option>
+                            <option value="making a phone call">Making a phone call</option>
+                            <option value="restaurant or store interaction">Restaurant or store interaction</option>
+                            <option value="school or work situation">School or work situation</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="social-situation">Describe the situation</label>
+                        <textarea
+                            id="social-situation"
+                            placeholder="e.g. I have a job interview at a coffee shop tomorrow. I'm scared about 'tell me about yourself' and what to do if there's a long silence..."
+                            rows="4"
+                            aria-required="true"
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        <span class="btn-text">Generate My Script</span>
+                        <span class="btn-icon" aria-hidden="true">→</span>
+                    </button>
+                </form>
+
+                <div class="loading" id="social-script-loading" aria-live="polite" aria-label="Loading response">
+                    <div class="loading-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <p>Writing your script...</p>
+                </div>
+
+                <div class="response-area" id="social-script-response" aria-live="polite"></div>
+            </section>
+
+            <!-- ── Tool 2: Sensory Prep Planner ── -->
+            <section id="sensory-prep" class="panel" role="tabpanel">
+                <div class="panel-header">
+                    <div class="panel-header-icon" aria-hidden="true">🎧</div>
+                    <div>
+                        <h2>Sensory Prep Planner</h2>
+                        <p class="panel-desc">Tell me where you need to go and I'll help you prepare — what to bring, how to cope while you're there, and how to leave safely if you need to.</p>
+                    </div>
+                </div>
+
+                <form class="tool-form" id="sensory-prep-form" novalidate>
+                    <fieldset class="age-selector">
+                        <legend>Who is this for?</legend>
+                        <div class="age-options">
+                            <label class="age-option">
+                                <input type="radio" name="sensory-age" value="child">
+                                <span class="age-label">
+                                    <span class="age-emoji" aria-hidden="true">🌟</span>
+                                    Child
+                                    <span class="age-sub">under 12</span>
+                                </span>
+                            </label>
+                            <label class="age-option">
+                                <input type="radio" name="sensory-age" value="teen">
+                                <span class="age-label">
+                                    <span class="age-emoji" aria-hidden="true">🎒</span>
+                                    Teen
+                                    <span class="age-sub">13–17</span>
+                                </span>
+                            </label>
+                            <label class="age-option">
+                                <input type="radio" name="sensory-age" value="adult" checked>
+                                <span class="age-label">
+                                    <span class="age-emoji" aria-hidden="true">🌿</span>
+                                    Adult
+                                    <span class="age-sub">18+</span>
+                                </span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-group">
+                        <label for="sensory-environment">Describe the environment</label>
+                        <textarea
+                            id="sensory-environment"
+                            placeholder="e.g. A loud birthday party at a relative's house — lots of people I don't know, fluorescent lights, noisy kids, strong food smells, and I can't leave for at least 2 hours..."
+                            rows="4"
+                            aria-required="true"
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        <span class="btn-text">Build My Prep Plan</span>
+                        <span class="btn-icon" aria-hidden="true">→</span>
+                    </button>
+                </form>
+
+                <div class="loading" id="sensory-prep-loading" aria-live="polite" aria-label="Loading response">
+                    <div class="loading-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <p>Building your plan...</p>
+                </div>
+
+                <div class="response-area" id="sensory-prep-response" aria-live="polite"></div>
+            </section>
+
+            <!-- ── Tool 3: Executive Function Unsticker ── -->
+            <section id="executive-function" class="panel" role="tabpanel">
+                <div class="panel-header">
+                    <div class="panel-header-icon" aria-hidden="true">✅</div>
+                    <div>
+                        <h2>Executive Function Unsticker</h2>
+                        <p class="panel-desc">Completely stuck and can't start? Describe the task — I'll break it into tiny, manageable steps that actually feel possible.</p>
+                    </div>
+                </div>
+
+                <form class="tool-form" id="executive-function-form" novalidate>
+                    <fieldset class="age-selector">
+                        <legend>Who is this for?</legend>
+                        <div class="age-options">
+                            <label class="age-option">
+                                <input type="radio" name="exec-age" value="child">
+                                <span class="age-label">
+                                    <span class="age-emoji" aria-hidden="true">🌟</span>
+                                    Child
+                                    <span class="age-sub">under 12</span>
+                                </span>
+                            </label>
+                            <label class="age-option">
+                                <input type="radio" name="exec-age" value="teen">
+                                <span class="age-label">
+                                    <span class="age-emoji" aria-hidden="true">🎒</span>
+                                    Teen
+                                    <span class="age-sub">13–17</span>
+                                </span>
+                            </label>
+                            <label class="age-option">
+                                <input type="radio" name="exec-age" value="adult" checked>
+                                <span class="age-label">
+                                    <span class="age-emoji" aria-hidden="true">🌿</span>
+                                    Adult
+                                    <span class="age-sub">18+</span>
+                                </span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-group">
+                        <label for="exec-task">What task are you stuck on?</label>
+                        <textarea
+                            id="exec-task"
+                            placeholder="e.g. I need to reply to an important email but every time I open it I just freeze and close it again. It's been 3 days and I know I need to but I just can't start..."
+                            rows="4"
+                            aria-required="true"
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        <span class="btn-text">Break It Down For Me</span>
+                        <span class="btn-icon" aria-hidden="true">→</span>
+                    </button>
+                </form>
+
+                <div class="loading" id="executive-function-loading" aria-live="polite" aria-label="Loading response">
+                    <div class="loading-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <p>Breaking it down...</p>
+                </div>
+
+                <div class="response-area" id="executive-function-response" aria-live="polite"></div>
+            </section>
+
+        </main>
+
+        <footer>
+            <p>AutiKit is an AI-powered support tool. It's here to help, not replace professional advice.</p>
+        </footer>
+
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
