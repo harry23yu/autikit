@@ -17,7 +17,24 @@
 
         <div class="onboarding-card">
 
-            <!-- Progress -->
+            <!-- Step 0: Welcome -->
+            <div class="onboarding-step active" id="ob-step-0">
+                <div class="ob-logo">
+                    <span class="ob-logo-icon" aria-hidden="true">🧩</span>
+                    <h2 class="ob-logo-title">AutiKit</h2>
+                </div>
+                <p class="ob-subtitle">Supporting autistic people of all ages</p>
+                <p class="ob-welcome-desc">AutiKit uses AI to help with three everyday challenges that many autistic people face:</p>
+                <ul class="ob-feature-list">
+                    <li><span class="ob-feature-icon" aria-hidden="true">💬</span><span>Write social scripts for situations you're nervous about</span></li>
+                    <li><span class="ob-feature-icon" aria-hidden="true">🎧</span><span>Prepare for sensory-challenging environments</span></li>
+                    <li><span class="ob-feature-icon" aria-hidden="true">✅</span><span>Get unstuck when you can't start a task</span></li>
+                </ul>
+                <p class="ob-welcome-cta">If any of that sounds useful, click below. We'll ask a few quick questions so everything is personalised to you.</p>
+                <button class="ob-next-btn" id="ob-welcome-start" type="button">Let's get started →</button>
+            </div>
+
+            <!-- Progress (shown for steps 1–4) -->
             <div class="onboarding-progress" aria-hidden="true">
                 <div class="progress-dot active" data-step="1"></div>
                 <div class="progress-line"></div>
@@ -29,7 +46,7 @@
             </div>
 
             <!-- Step 1: Who is using AutiKit? -->
-            <div class="onboarding-step active" id="ob-step-1">
+            <div class="onboarding-step" id="ob-step-1">
                 <div class="ob-logo">
                     <span class="ob-logo-icon" aria-hidden="true">🧩</span>
                     <h2 class="ob-logo-title">AutiKit</h2>

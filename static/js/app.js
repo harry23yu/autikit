@@ -35,6 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.onboarding-step').forEach(s => s.classList.remove('active'));
         document.getElementById(`ob-step-${n}`).classList.add('active');
 
+        const progressEl = document.querySelector('.onboarding-progress');
+        progressEl.style.display = n === 0 ? 'none' : '';
+
         document.querySelectorAll('.progress-dot').forEach((dot, i) => {
             dot.classList.toggle('active', i + 1 === n);
             dot.classList.toggle('done', i + 1 < n);
@@ -45,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         obCurrentStep = n;
         const skipBtn = document.getElementById('ob-skip');
-        skipBtn.textContent = 'Skip this question →';
-        skipBtn.style.visibility = n === 4 ? 'hidden' : '';
+        skipBtn.textContent = n === 0 ? 'Skip for now' : 'Skip this question →';
+        skipBtn.style.visibility = (n === 0 || n === 4) ? 'hidden' : '';
     }
 
     function applyProfileToApp() {
@@ -57,6 +60,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (radio) radio.checked = true;
         });
     }
+
+    // Step 0: Welcome — Let's get started
+    document.getElementById('ob-welcome-start').addEventListener('click', () => {
+        if (currentProfile.completed) {
+            hideOnboarding();
+        } else {
+            goToStep(1);
+        }
+    });
 
     // Step 1: Role — toggle select/deselect; Next button advances
     document.querySelectorAll('#ob-role-options .ob-option').forEach(btn => {
@@ -110,9 +122,15 @@ document.addEventListener('DOMContentLoaded', () => {
         hideOnboarding();
     });
 
-    // Skip — advances one step at a time; saves & closes on the last step
+    // Skip — on step 0 closes entirely; on steps 1-3 advances one step; step 4 skip is hidden
     document.getElementById('ob-skip').addEventListener('click', () => {
-        if (obCurrentStep < 4) {
+        if (obCurrentStep === 0) {
+            if (!obData.role)      obData.role = 'self';
+            if (!obData.age_group) obData.age_group = 'adult';
+            saveProfile(obData);
+            applyProfileToApp();
+            hideOnboarding();
+        } else if (obCurrentStep < 4) {
             goToStep(obCurrentStep + 1);
         } else {
             obData.notes = document.getElementById('ob-notes').value.trim();
@@ -152,16 +170,14 @@ document.addEventListener('DOMContentLoaded', () => {
         showOnboarding();
     });
 
-    // Init: check localStorage
+    // Init: always show welcome screen; load stored profile if it exists
     const stored = loadStoredProfile();
     if (stored && stored.completed) {
         currentProfile = stored;
         applyProfileToApp();
-        hideOnboarding();
-    } else {
-        goToStep(1);
-        showOnboarding();
     }
+    goToStep(0);
+    showOnboarding();
 
     // ── Tab Switching ──────────────────────────────────────
     const tabs   = document.querySelectorAll('.tab');
