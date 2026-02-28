@@ -52,7 +52,9 @@ Describe 2-3 ways the situation might go differently and exactly how to handle e
 Label each as **Variation 1:**, **Variation 2:**, **Variation 3:**.
 
 ## Remember
-End with one short, warm, genuine encouragement note. Do not be patronizing or use clichés."""
+End with one short, warm, genuine encouragement note. Do not be patronizing or use clichés.
+
+Always complete your response fully. Never end mid-sentence or mid-section. If you need to be concise, wrap up gracefully rather than getting cut off."""
 
 SENSORY_PREP_SYSTEM = """You are an autism-informed sensory support specialist. You help people prepare \
 for sensory-challenging environments with practical, personalized strategies. You understand sensory \
@@ -81,7 +83,9 @@ what to say to leave gracefully, where to go to recover, and what to do afterwar
 Frame leaving as a completely valid and smart strategy — not a failure.
 
 ## You've Got This
-One brief, genuine 1-2 sentence encouragement that validates the challenge and their preparation effort."""
+One brief, genuine 1-2 sentence encouragement that validates the challenge and their preparation effort.
+
+Always complete your response fully. Never end mid-sentence or mid-section. If you need to be concise, wrap up gracefully rather than getting cut off."""
 
 EXECUTIVE_FUNCTION_SYSTEM = """You are a compassionate executive function coach specializing in autism support. \
 You understand that task initiation challenges are neurological — not laziness, not a character flaw. \
@@ -111,7 +115,9 @@ Keep each one to 2-3 sentences max.
 
 ## If You Get Stuck Again
 Give 3 specific, concrete things to do if they freeze mid-task. Be warm, non-judgmental, \
-and very practical. No motivational speeches — just the next physical action."""
+and very practical. No motivational speeches — just the next physical action.
+
+Always complete your response fully. Never end mid-sentence or mid-section. If you need to be concise, wrap up gracefully rather than getting cut off."""
 
 
 CHALLENGE_LABELS = {
@@ -180,7 +186,7 @@ def social_script():
 
     message = client.messages.create(
         model="claude-sonnet-4-5",
-        max_tokens=1600,
+        max_tokens=4096,
         system=get_system_prompt(SOCIAL_SCRIPT_SYSTEM, age_group) + build_profile_context(profile),
         messages=[{"role": "user", "content": user_message}],
     )
@@ -200,7 +206,7 @@ def sensory_prep():
 
     message = client.messages.create(
         model="claude-sonnet-4-5",
-        max_tokens=1600,
+        max_tokens=4096,
         system=get_system_prompt(SENSORY_PREP_SYSTEM, age_group) + build_profile_context(profile),
         messages=[{"role": "user", "content": f"Environment I need to prepare for: {environment}"}],
     )
@@ -220,7 +226,7 @@ def executive_function():
 
     message = client.messages.create(
         model="claude-sonnet-4-5",
-        max_tokens=1600,
+        max_tokens=4096,
         system=get_system_prompt(EXECUTIVE_FUNCTION_SYSTEM, age_group) + build_profile_context(profile),
         messages=[{"role": "user", "content": f"Task I'm completely stuck on and can't start: {task}"}],
     )
