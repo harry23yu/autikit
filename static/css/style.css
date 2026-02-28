@@ -55,7 +55,8 @@ body {
 header {
     padding: 48px 0 32px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .logo {
@@ -534,6 +535,341 @@ footer {
     font-weight: 500;
 }
 
+/* ─── Edit Profile Button ───────────────────────────── */
+.edit-profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.edit-profile-btn:hover {
+    border-color: var(--primary-mid);
+    color: var(--primary-dark);
+    background: var(--primary-light);
+}
+
+/* ─── Onboarding Overlay ────────────────────────────── */
+.onboarding-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.onboarding-overlay.hidden {
+    display: none;
+}
+
+.onboarding-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    padding: 40px;
+    width: 100%;
+    max-width: 540px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-light);
+}
+
+/* Progress indicator */
+.onboarding-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 36px;
+    gap: 0;
+}
+
+.progress-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background var(--transition);
+    flex-shrink: 0;
+}
+
+.progress-dot.active {
+    background: var(--primary);
+    width: 12px;
+    height: 12px;
+}
+
+.progress-dot.done {
+    background: var(--primary-mid);
+}
+
+.progress-line {
+    flex: 1;
+    max-width: 56px;
+    height: 2px;
+    background: var(--border);
+    transition: background var(--transition);
+}
+
+.progress-line.done {
+    background: var(--primary-mid);
+}
+
+/* Steps */
+.onboarding-step {
+    display: none;
+}
+
+.onboarding-step.active {
+    display: block;
+    animation: slideUp 0.25s ease;
+}
+
+/* Step 1 branding */
+.ob-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.ob-logo-icon {
+    font-size: 38px;
+    line-height: 1;
+}
+
+.ob-logo-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--primary-dark);
+    letter-spacing: -0.5px;
+}
+
+.ob-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 28px;
+}
+
+.ob-question {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 18px;
+    line-height: 1.3;
+}
+
+.ob-question-sub {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.ob-hint {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+/* Option buttons (role & age — single select, auto-advance) */
+.ob-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.ob-option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 15px 18px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Nunito', sans-serif;
+    transition: all var(--transition);
+    width: 100%;
+    position: relative;
+}
+
+.ob-option:hover {
+    border-color: var(--primary-mid);
+    background: var(--primary-light);
+}
+
+.ob-option.selected {
+    border-color: var(--primary);
+    border-width: 2px;
+    background: var(--primary-light);
+    padding-right: 100px; /* room for the badge */
+}
+
+.ob-option.selected::after {
+    content: "✓ Selected";
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--primary-dark);
+    background: #fff;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1.5px solid var(--primary);
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+}
+
+.ob-option-emoji {
+    font-size: 26px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.ob-option-text strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 2px;
+}
+
+.ob-option-text span {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* Challenge checkboxes (multi-select) */
+.ob-challenges {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.ob-challenge {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 13px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all var(--transition);
+    background: var(--bg);
+    user-select: none;
+}
+
+.ob-challenge:hover {
+    border-color: var(--primary-mid);
+    color: var(--text);
+}
+
+.ob-challenge input[type="checkbox"] {
+    display: none;
+}
+
+.ob-challenge:has(input:checked) {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+/* Notes textarea */
+.ob-notes-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    background: var(--bg);
+    resize: vertical;
+    outline: none;
+    transition: border-color var(--transition), background var(--transition);
+    margin-bottom: 20px;
+    line-height: 1.6;
+    display: block;
+}
+
+.ob-notes-input:focus {
+    border-color: var(--primary);
+    background: #fff;
+}
+
+.ob-notes-input::placeholder {
+    color: var(--text-light);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Action buttons */
+.ob-next-btn,
+.ob-finish-btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.ob-next-btn:hover,
+.ob-finish-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(107, 94, 153, 0.3);
+}
+
+/* Skip link */
+.ob-skip {
+    margin-top: 18px;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 20px;
+    transition: color var(--transition);
+}
+
+.ob-skip:hover {
+    color: var(--text-muted);
+}
+
 /* ─── Responsive ────────────────────────────────────── */
 @media (max-width: 600px) {
     .container {
@@ -550,6 +886,18 @@ footer {
 
     .logo-text h1 {
         font-size: 30px;
+    }
+
+    .edit-profile-btn span[aria-hidden] {
+        display: none;
+    }
+
+    .onboarding-card {
+        padding: 28px 22px;
+    }
+
+    .ob-challenges {
+        grid-template-columns: 1fr;
     }
 
     .tabs {

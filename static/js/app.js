@@ -2,6 +2,167 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    // ── Profile & Onboarding ───────────────────────────────
+    const PROFILE_KEY = 'autikit_profile';
+    let currentProfile = {};
+    let obData = { role: null, age_group: null, challenges: [], notes: '' };
+    let obCurrentStep = 1;
+
+    function loadStoredProfile() {
+        try {
+            const raw = localStorage.getItem(PROFILE_KEY);
+            return raw ? JSON.parse(raw) : null;
+        } catch (e) { return null; }
+    }
+
+    function saveProfile(data) {
+        const profile = { ...data, completed: true };
+        localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+        currentProfile = profile;
+    }
+
+    function showOnboarding() {
+        document.getElementById('onboarding').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function hideOnboarding() {
+        document.getElementById('onboarding').classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+
+    function goToStep(n) {
+        document.querySelectorAll('.onboarding-step').forEach(s => s.classList.remove('active'));
+        document.getElementById(`ob-step-${n}`).classList.add('active');
+
+        document.querySelectorAll('.progress-dot').forEach((dot, i) => {
+            dot.classList.toggle('active', i + 1 === n);
+            dot.classList.toggle('done', i + 1 < n);
+        });
+        document.querySelectorAll('.progress-line').forEach((line, i) => {
+            line.classList.toggle('done', i + 1 < n);
+        });
+
+        obCurrentStep = n;
+        const skipBtn = document.getElementById('ob-skip');
+        skipBtn.textContent = 'Skip this question →';
+        skipBtn.style.visibility = n === 4 ? 'hidden' : '';
+    }
+
+    function applyProfileToApp() {
+        const age = currentProfile.age_group;
+        if (!age) return;
+        ['social-age', 'sensory-age', 'exec-age'].forEach(name => {
+            const radio = document.querySelector(`input[name="${name}"][value="${age}"]`);
+            if (radio) radio.checked = true;
+        });
+    }
+
+    // Step 1: Role — toggle select/deselect; Next button advances
+    document.querySelectorAll('#ob-role-options .ob-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (btn.classList.contains('selected')) {
+                btn.classList.remove('selected');
+                obData.role = null;
+            } else {
+                document.querySelectorAll('#ob-role-options .ob-option').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                obData.role = btn.dataset.value;
+            }
+        });
+    });
+
+    document.getElementById('ob-step1-next').addEventListener('click', () => {
+        goToStep(2);
+    });
+
+    // Step 2: Age — toggle select/deselect; Next button advances
+    document.querySelectorAll('#ob-age-options .ob-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (btn.classList.contains('selected')) {
+                btn.classList.remove('selected');
+                obData.age_group = null;
+            } else {
+                document.querySelectorAll('#ob-age-options .ob-option').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                obData.age_group = btn.dataset.value;
+            }
+        });
+    });
+
+    document.getElementById('ob-step2-next').addEventListener('click', () => {
+        goToStep(3);
+    });
+
+    // Step 3: Challenges — explicit Next
+    document.getElementById('ob-step3-next').addEventListener('click', () => {
+        obData.challenges = Array.from(
+            document.querySelectorAll('#ob-step-3 input[type="checkbox"]:checked')
+        ).map(cb => cb.value);
+        goToStep(4);
+    });
+
+    // Step 4: Finish
+    document.getElementById('ob-finish').addEventListener('click', () => {
+        obData.notes = document.getElementById('ob-notes').value.trim();
+        saveProfile(obData);
+        applyProfileToApp();
+        hideOnboarding();
+    });
+
+    // Skip — advances one step at a time; saves & closes on the last step
+    document.getElementById('ob-skip').addEventListener('click', () => {
+        if (obCurrentStep < 4) {
+            goToStep(obCurrentStep + 1);
+        } else {
+            obData.notes = document.getElementById('ob-notes').value.trim();
+            if (!obData.role)      obData.role = 'self';
+            if (!obData.age_group) obData.age_group = 'adult';
+            saveProfile(obData);
+            applyProfileToApp();
+            hideOnboarding();
+        }
+    });
+
+    // Edit Profile button — re-open and pre-populate
+    document.getElementById('edit-profile-btn').addEventListener('click', () => {
+        obData = {
+            role:       currentProfile.role       || null,
+            age_group:  currentProfile.age_group  || null,
+            challenges: currentProfile.challenges ? [...currentProfile.challenges] : [],
+            notes:      currentProfile.notes      || '',
+        };
+
+        // Pre-select role
+        document.querySelectorAll('#ob-role-options .ob-option').forEach(btn => {
+            btn.classList.toggle('selected', btn.dataset.value === obData.role);
+        });
+        // Pre-select age
+        document.querySelectorAll('#ob-age-options .ob-option').forEach(btn => {
+            btn.classList.toggle('selected', btn.dataset.value === obData.age_group);
+        });
+        // Pre-check challenges
+        document.querySelectorAll('#ob-step-3 input[type="checkbox"]').forEach(cb => {
+            cb.checked = obData.challenges.includes(cb.value);
+        });
+        // Pre-fill notes
+        document.getElementById('ob-notes').value = obData.notes;
+
+        goToStep(1);
+        showOnboarding();
+    });
+
+    // Init: check localStorage
+    const stored = loadStoredProfile();
+    if (stored && stored.completed) {
+        currentProfile = stored;
+        applyProfileToApp();
+        hideOnboarding();
+    } else {
+        goToStep(1);
+        showOnboarding();
+    }
+
     // ── Tab Switching ──────────────────────────────────────
     const tabs   = document.querySelectorAll('.tab');
     const panels = document.querySelectorAll('.panel');
@@ -40,7 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function showResponse(responseEl, html) {
         responseEl.innerHTML = html;
         responseEl.classList.add('visible');
-        // Smooth scroll so the response is visible
         setTimeout(() => {
             responseEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }, 100);
@@ -71,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const res = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
+                body: JSON.stringify({ ...payload, profile: currentProfile }),
             });
 
             const data = await res.json();
@@ -79,9 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!res.ok || data.error) {
                 showError(responseEl, data.error || 'Something went wrong. Please try again.');
             } else {
-                // Use marked to render Claude's markdown response
-                const rendered = marked.parse(data.response);
-                showResponse(responseEl, rendered);
+                showResponse(responseEl, marked.parse(data.response));
             }
         } catch (err) {
             showError(responseEl, 'Could not reach the server. Please check your connection and try again.');

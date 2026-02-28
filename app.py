@@ -114,6 +114,47 @@ Give 3 specific, concrete things to do if they freeze mid-task. Be warm, non-jud
 and very practical. No motivational speeches — just the next physical action."""
 
 
+CHALLENGE_LABELS = {
+    "social":        "social situations and communication",
+    "sensory":       "sensory processing and sensitivities",
+    "executive":     "getting started on tasks (executive function)",
+    "transitions":   "managing transitions and unexpected change",
+    "emotional":     "emotional regulation",
+    "meltdowns":     "meltdowns or shutdowns",
+    "friends":       "making and keeping friendships",
+    "communication": "verbal communication difficulties",
+}
+
+ROLE_LABELS = {
+    "self":    "The person is autistic and using this for themselves.",
+    "parent":  "A parent or caregiver is using this on behalf of their autistic child or dependent.",
+    "support": "A teacher, therapist, or support worker is using this for someone they support.",
+}
+
+
+def build_profile_context(profile):
+    if not profile:
+        return ""
+    lines = []
+    role = profile.get("role", "")
+    if role in ROLE_LABELS:
+        lines.append(ROLE_LABELS[role])
+    challenges = profile.get("challenges") or []
+    if challenges:
+        names = [CHALLENGE_LABELS[c] for c in challenges if c in CHALLENGE_LABELS]
+        if names:
+            lines.append(f"Their primary challenges are: {', '.join(names)}.")
+    notes = (profile.get("notes") or "").strip()
+    if notes:
+        lines.append(f'Additional personal context they shared: "{notes}"')
+    if not lines:
+        return ""
+    return (
+        "\n\nPERSONAL PROFILE (use this to make your response more specific and relevant):\n"
+        + "\n".join(lines)
+    )
+
+
 def get_system_prompt(template, age_group):
     age_key = age_group.lower() if age_group.lower() in AGE_CONTEXT else "adult"
     return template.format(age_context=AGE_CONTEXT[age_key])
@@ -134,12 +175,13 @@ def social_script():
     if not situation:
         return jsonify({"error": "Please describe the social situation."}), 400
 
+    profile = data.get("profile") or {}
     user_message = f"Social situation type: {context}\n\nDescription: {situation}"
 
     message = client.messages.create(
         model="claude-sonnet-4-5",
         max_tokens=1600,
-        system=get_system_prompt(SOCIAL_SCRIPT_SYSTEM, age_group),
+        system=get_system_prompt(SOCIAL_SCRIPT_SYSTEM, age_group) + build_profile_context(profile),
         messages=[{"role": "user", "content": user_message}],
     )
 
@@ -152,13 +194,14 @@ def sensory_prep():
     environment = data.get("environment", "").strip()
     age_group = data.get("age_group", "adult")
 
+    profile = data.get("profile") or {}
     if not environment:
         return jsonify({"error": "Please describe the environment."}), 400
 
     message = client.messages.create(
         model="claude-sonnet-4-5",
         max_tokens=1600,
-        system=get_system_prompt(SENSORY_PREP_SYSTEM, age_group),
+        system=get_system_prompt(SENSORY_PREP_SYSTEM, age_group) + build_profile_context(profile),
         messages=[{"role": "user", "content": f"Environment I need to prepare for: {environment}"}],
     )
 
@@ -171,13 +214,14 @@ def executive_function():
     task = data.get("task", "").strip()
     age_group = data.get("age_group", "adult")
 
+    profile = data.get("profile") or {}
     if not task:
         return jsonify({"error": "Please describe the task you're stuck on."}), 400
 
     message = client.messages.create(
         model="claude-sonnet-4-5",
         max_tokens=1600,
-        system=get_system_prompt(EXECUTIVE_FUNCTION_SYSTEM, age_group),
+        system=get_system_prompt(EXECUTIVE_FUNCTION_SYSTEM, age_group) + build_profile_context(profile),
         messages=[{"role": "user", "content": f"Task I'm completely stuck on and can't start: {task}"}],
     )
 

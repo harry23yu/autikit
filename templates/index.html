@@ -11,6 +11,147 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
+
+    <!-- ── Onboarding Overlay ─────────────────────────────── -->
+    <div id="onboarding" class="onboarding-overlay" role="dialog" aria-modal="true" aria-label="Welcome to AutiKit">
+
+        <div class="onboarding-card">
+
+            <!-- Progress -->
+            <div class="onboarding-progress" aria-hidden="true">
+                <div class="progress-dot active" data-step="1"></div>
+                <div class="progress-line"></div>
+                <div class="progress-dot" data-step="2"></div>
+                <div class="progress-line"></div>
+                <div class="progress-dot" data-step="3"></div>
+                <div class="progress-line"></div>
+                <div class="progress-dot" data-step="4"></div>
+            </div>
+
+            <!-- Step 1: Who is using AutiKit? -->
+            <div class="onboarding-step active" id="ob-step-1">
+                <div class="ob-logo">
+                    <span class="ob-logo-icon" aria-hidden="true">🧩</span>
+                    <h2 class="ob-logo-title">AutiKit</h2>
+                </div>
+                <p class="ob-subtitle">Supporting autistic people of all ages</p>
+                <h3 class="ob-question">Who is using AutiKit today?</h3>
+                <div class="ob-options" id="ob-role-options">
+                    <button class="ob-option" data-value="self" type="button">
+                        <span class="ob-option-emoji" aria-hidden="true">🌟</span>
+                        <div class="ob-option-text">
+                            <strong>For myself</strong>
+                            <span>I'm autistic and using this for me</span>
+                        </div>
+                    </button>
+                    <button class="ob-option" data-value="parent" type="button">
+                        <span class="ob-option-emoji" aria-hidden="true">💛</span>
+                        <div class="ob-option-text">
+                            <strong>For my child</strong>
+                            <span>I'm a parent or caregiver</span>
+                        </div>
+                    </button>
+                    <button class="ob-option" data-value="support" type="button">
+                        <span class="ob-option-emoji" aria-hidden="true">🤝</span>
+                        <div class="ob-option-text">
+                            <strong>For someone I support</strong>
+                            <span>Teacher, therapist, or support worker</span>
+                        </div>
+                    </button>
+                </div>
+                <button class="ob-next-btn" id="ob-step1-next" type="button">Next →</button>
+            </div>
+
+            <!-- Step 2: Age group -->
+            <div class="onboarding-step" id="ob-step-2">
+                <h3 class="ob-question">How old are you or the person you are trying to support?<br></h3>
+                <div class="ob-options" id="ob-age-options">
+                    <button class="ob-option" data-value="child" type="button">
+                        <span class="ob-option-emoji" aria-hidden="true">🌟</span>
+                        <div class="ob-option-text">
+                            <strong>Child</strong>
+                            <span>Under 12</span>
+                        </div>
+                    </button>
+                    <button class="ob-option" data-value="teen" type="button">
+                        <span class="ob-option-emoji" aria-hidden="true">🎒</span>
+                        <div class="ob-option-text">
+                            <strong>Teen</strong>
+                            <span>13 to 17</span>
+                        </div>
+                    </button>
+                    <button class="ob-option" data-value="adult" type="button">
+                        <span class="ob-option-emoji" aria-hidden="true">🌿</span>
+                        <div class="ob-option-text">
+                            <strong>Adult</strong>
+                            <span>18 and over</span>
+                        </div>
+                    </button>
+                </div>
+                <button class="ob-next-btn" id="ob-step2-next" type="button">Next →</button>
+            </div>
+
+            <!-- Step 3: Challenges (multi-select) -->
+            <div class="onboarding-step" id="ob-step-3">
+                <h3 class="ob-question">What challenges matter most?</h3>
+                <p class="ob-hint">Select all that apply — this helps personalise every response.</p>
+                <div class="ob-challenges">
+                    <label class="ob-challenge">
+                        <input type="checkbox" value="social">
+                        <span>💬 Social situations</span>
+                    </label>
+                    <label class="ob-challenge">
+                        <input type="checkbox" value="sensory">
+                        <span>🎧 Sensory sensitivities</span>
+                    </label>
+                    <label class="ob-challenge">
+                        <input type="checkbox" value="executive">
+                        <span>✅ Starting tasks</span>
+                    </label>
+                    <label class="ob-challenge">
+                        <input type="checkbox" value="transitions">
+                        <span>🔄 Managing change</span>
+                    </label>
+                    <label class="ob-challenge">
+                        <input type="checkbox" value="emotional">
+                        <span>💜 Emotional regulation</span>
+                    </label>
+                    <label class="ob-challenge">
+                        <input type="checkbox" value="meltdowns">
+                        <span>🌊 Meltdowns / shutdowns</span>
+                    </label>
+                    <label class="ob-challenge">
+                        <input type="checkbox" value="friends">
+                        <span>🤝 Making friends</span>
+                    </label>
+                    <label class="ob-challenge">
+                        <input type="checkbox" value="communication">
+                        <span>🗣️ Communication</span>
+                    </label>
+                </div>
+                <button class="ob-next-btn" id="ob-step3-next" type="button">Next →</button>
+            </div>
+
+            <!-- Step 4: Notes (optional) -->
+            <div class="onboarding-step" id="ob-step-4">
+                <h3 class="ob-question">Anything specific we should know?</h3>
+                <p class="ob-hint">Optional — any details that help give you better, more relevant responses.</p>
+                <textarea
+                    id="ob-notes"
+                    class="ob-notes-input"
+                    placeholder="e.g. I'm also diagnosed with ADHD, I'm mostly hypersensitive to sound and light, I find unexpected changes very hard..."
+                    rows="4"
+                ></textarea>
+                <button class="ob-finish-btn" id="ob-finish" type="button">Start using AutiKit →</button>
+            </div>
+
+        </div>
+
+        <button class="ob-skip" id="ob-skip" type="button">Skip for now</button>
+
+    </div>
+    <!-- ── End Onboarding ─────────────────────────────────── -->
+
     <div class="container">
 
         <header>
@@ -21,6 +162,9 @@
                     <p class="tagline">Supporting autistic people of all ages</p>
                 </div>
             </div>
+            <button id="edit-profile-btn" class="edit-profile-btn" type="button" aria-label="Edit your profile">
+                <span aria-hidden="true">⚙️</span> My Profile
+            </button>
         </header>
 
         <nav class="tabs" role="tablist" aria-label="Tools">
