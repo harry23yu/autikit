@@ -14,7 +14,7 @@ AutiKit is a web app that uses Claude to help autistic people — and those who 
 | 🎧 **Sensory Prep Planner** | Describes exactly what to bring, how to cope, and how to exit gracefully before a sensory-challenging environment |
 | ✅ **Task Unsticker** | Breaks any task into tiny, concrete, 2-minute steps for when executive function makes starting feel impossible |
 
-Every response is **personalised**: AutiKit asks 4 quick questions on first use (who you are, age group, your biggest challenges, and any extra context), then tailors every Claude response to that profile.
+Every response is **personalised**: AutiKit asks 3 quick questions on first use (who you are, your biggest challenges, and any extra context), then tailors every Claude response to that profile. Age is set directly on each tool so it can be adjusted per request.
 
 ---
 
@@ -79,11 +79,11 @@ AutiKit gives anyone — autistic people, parents, teachers — on-demand, perso
 ## Demo flow (3 minutes)
 
 1. **Open the app** → welcome screen explains the three tools
-2. **Onboarding** → 4-step questionnaire sets age, role, challenges, and personal context
+2. **Onboarding** → 3-step questionnaire sets role, challenges, and personal context
 3. **Social Script**: type *"job interview at a coffee shop, scared about the 'tell me about yourself' question"* → show the structured script with exact phrases
 4. **Sensory Prep**: type *"loud birthday party, fluorescent lights, can't leave for 2 hours"* → show the packing list and exit strategy
 5. **Task Unsticker**: type *"I need to reply to an important email but I keep freezing"* → show the micro-steps starting with "open your email app"
-6. **Edit Profile** → change age group from adult to child, run the same query, show how the language completely changes
+6. **Age toggle** → switch the age selector on any tool from Adult to Child, run the same query, show how the language completely changes
 
 ---
 

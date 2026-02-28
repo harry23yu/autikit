@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Profile & Onboarding ───────────────────────────────
     const PROFILE_KEY = 'autikit_profile';
     let currentProfile = {};
-    let obData = { role: null, age_group: null, challenges: [], notes: '' };
+    let obData = { role: null, challenges: [], notes: '' };
     let obCurrentStep = 1;
 
     function loadStoredProfile() {
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         obCurrentStep = n;
         const skipBtn = document.getElementById('ob-skip');
         skipBtn.textContent = n === 0 ? 'Skip for now' : 'Skip this question →';
-        skipBtn.style.visibility = (n === 0 || n === 4) ? 'hidden' : '';
+        skipBtn.style.visibility = (n === 0 || n === 3) ? 'hidden' : '';
     }
 
     function applyProfileToApp() {
@@ -88,33 +88,15 @@ document.addEventListener('DOMContentLoaded', () => {
         goToStep(2);
     });
 
-    // Step 2: Age — toggle select/deselect; Next button advances
-    document.querySelectorAll('#ob-age-options .ob-option').forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (btn.classList.contains('selected')) {
-                btn.classList.remove('selected');
-                obData.age_group = null;
-            } else {
-                document.querySelectorAll('#ob-age-options .ob-option').forEach(b => b.classList.remove('selected'));
-                btn.classList.add('selected');
-                obData.age_group = btn.dataset.value;
-            }
-        });
-    });
-
+    // Step 2: Challenges — explicit Next
     document.getElementById('ob-step2-next').addEventListener('click', () => {
+        obData.challenges = Array.from(
+            document.querySelectorAll('#ob-step-2 input[type="checkbox"]:checked')
+        ).map(cb => cb.value);
         goToStep(3);
     });
 
-    // Step 3: Challenges — explicit Next
-    document.getElementById('ob-step3-next').addEventListener('click', () => {
-        obData.challenges = Array.from(
-            document.querySelectorAll('#ob-step-3 input[type="checkbox"]:checked')
-        ).map(cb => cb.value);
-        goToStep(4);
-    });
-
-    // Step 4: Finish
+    // Step 3: Finish
     document.getElementById('ob-finish').addEventListener('click', () => {
         obData.notes = document.getElementById('ob-notes').value.trim();
         saveProfile(obData);
@@ -122,20 +104,18 @@ document.addEventListener('DOMContentLoaded', () => {
         hideOnboarding();
     });
 
-    // Skip — on step 0 closes entirely; on steps 1-3 advances one step; step 4 skip is hidden
+    // Skip — on step 0 closes entirely; on steps 1-2 advances one step; step 3 skip is hidden
     document.getElementById('ob-skip').addEventListener('click', () => {
         if (obCurrentStep === 0) {
-            if (!obData.role)      obData.role = 'self';
-            if (!obData.age_group) obData.age_group = 'adult';
+            if (!obData.role) obData.role = 'self';
             saveProfile(obData);
             applyProfileToApp();
             hideOnboarding();
-        } else if (obCurrentStep < 4) {
+        } else if (obCurrentStep < 3) {
             goToStep(obCurrentStep + 1);
         } else {
             obData.notes = document.getElementById('ob-notes').value.trim();
-            if (!obData.role)      obData.role = 'self';
-            if (!obData.age_group) obData.age_group = 'adult';
+            if (!obData.role) obData.role = 'self';
             saveProfile(obData);
             applyProfileToApp();
             hideOnboarding();
@@ -146,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('edit-profile-btn').addEventListener('click', () => {
         obData = {
             role:       currentProfile.role       || null,
-            age_group:  currentProfile.age_group  || null,
             challenges: currentProfile.challenges ? [...currentProfile.challenges] : [],
             notes:      currentProfile.notes      || '',
         };
@@ -155,12 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('#ob-role-options .ob-option').forEach(btn => {
             btn.classList.toggle('selected', btn.dataset.value === obData.role);
         });
-        // Pre-select age
-        document.querySelectorAll('#ob-age-options .ob-option').forEach(btn => {
-            btn.classList.toggle('selected', btn.dataset.value === obData.age_group);
-        });
         // Pre-check challenges
-        document.querySelectorAll('#ob-step-3 input[type="checkbox"]').forEach(cb => {
+        document.querySelectorAll('#ob-step-2 input[type="checkbox"]').forEach(cb => {
             cb.checked = obData.challenges.includes(cb.value);
         });
         // Pre-fill notes

@@ -34,15 +34,13 @@
                 <button class="ob-next-btn" id="ob-welcome-start" type="button">Let's get started →</button>
             </div>
 
-            <!-- Progress (shown for steps 1–4) -->
+            <!-- Progress (shown for steps 1–3) -->
             <div class="onboarding-progress" aria-hidden="true">
                 <div class="progress-dot active" data-step="1"></div>
                 <div class="progress-line"></div>
                 <div class="progress-dot" data-step="2"></div>
                 <div class="progress-line"></div>
                 <div class="progress-dot" data-step="3"></div>
-                <div class="progress-line"></div>
-                <div class="progress-dot" data-step="4"></div>
             </div>
 
             <!-- Step 1: Who is using AutiKit? -->
@@ -79,37 +77,8 @@
                 <button class="ob-next-btn" id="ob-step1-next" type="button">Next →</button>
             </div>
 
-            <!-- Step 2: Age group -->
+            <!-- Step 2: Challenges (multi-select) -->
             <div class="onboarding-step" id="ob-step-2">
-                <h3 class="ob-question">How old are you or the person you are trying to support?<br></h3>
-                <div class="ob-options" id="ob-age-options">
-                    <button class="ob-option" data-value="child" type="button">
-                        <span class="ob-option-emoji" aria-hidden="true">🌟</span>
-                        <div class="ob-option-text">
-                            <strong>Child</strong>
-                            <span>Under 12</span>
-                        </div>
-                    </button>
-                    <button class="ob-option" data-value="teen" type="button">
-                        <span class="ob-option-emoji" aria-hidden="true">🎒</span>
-                        <div class="ob-option-text">
-                            <strong>Teen</strong>
-                            <span>13 to 17</span>
-                        </div>
-                    </button>
-                    <button class="ob-option" data-value="adult" type="button">
-                        <span class="ob-option-emoji" aria-hidden="true">🌿</span>
-                        <div class="ob-option-text">
-                            <strong>Adult</strong>
-                            <span>18 and over</span>
-                        </div>
-                    </button>
-                </div>
-                <button class="ob-next-btn" id="ob-step2-next" type="button">Next →</button>
-            </div>
-
-            <!-- Step 3: Challenges (multi-select) -->
-            <div class="onboarding-step" id="ob-step-3">
                 <h3 class="ob-question">What challenges matter most?</h3>
                 <p class="ob-hint">Select all that apply — this helps personalise every response.</p>
                 <div class="ob-challenges">
@@ -146,11 +115,11 @@
                         <span>🗣️ Communication</span>
                     </label>
                 </div>
-                <button class="ob-next-btn" id="ob-step3-next" type="button">Next →</button>
+                <button class="ob-next-btn" id="ob-step2-next" type="button">Next →</button>
             </div>
 
-            <!-- Step 4: Notes (optional) -->
-            <div class="onboarding-step" id="ob-step-4">
+            <!-- Step 3: Notes (optional) -->
+            <div class="onboarding-step" id="ob-step-3">
                 <h3 class="ob-question">Anything specific we should know?</h3>
                 <p class="ob-hint">Optional — any details that help give you better, more relevant responses.</p>
                 <textarea
