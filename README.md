@@ -58,7 +58,7 @@ echo "ANTHROPIC_API_KEY=your-key-here" > .env
 python app.py
 ```
 
-Then open `http://localhost:5000`.
+Then open `http://localhost:10000`.
 
 ---
 
