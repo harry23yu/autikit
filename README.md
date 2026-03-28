@@ -1,6 +1,8 @@
 # 🧩 AutiKit — AI Support Tools for Autistic People
 
-> Built at the Claude Code Meetup Portland hackathon. Powered by Claude. Made for the autistic community.
+> Built in 3 hours at Anthropic’s Claude Code inaugural Portland hackathon — placed 6th out of 125 teams. Powered by Claude. Made for the autistic community.
+
+🔗 **Live demo: [autikit.onrender.com](https://autikit.onrender.com)**
 
 ---
 
